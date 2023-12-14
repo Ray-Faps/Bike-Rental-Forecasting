@@ -5,12 +5,13 @@ Multiple linear regression is used to model and quantify the relationship betwee
 
 The independent variables in the dataset are; Temperature, Humidity, Wind, Visibility, Dew Point, Rainfall, Snowfall, & Season, while the dependent variable is Rental Count.
 Multiple linear regression is a parametric approach characterized by specific assumptions about the relationship between the dependent and independent variables in the model. 
-
 These assumptions include.
 Linearity: Multiple regression assumes that the relationship between the dependent variable and the independent variables is linear
 Independence of observations: Multiple regression assumes that there is no relationship between the various observations. 
 Normality of Residuals: Multiple regression typically assumes that the errors are normally distributed.
 No or little Multicollinearity: This implies that the explanatory variables are not strongly correlated.
+
+
 =====================================================================================================================================
 
 **OUR OBJECTIVES**
