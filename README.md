@@ -12,8 +12,6 @@ Normality of Residuals: Multiple regression typically assumes that the errors ar
 No or little Multicollinearity: This implies that the explanatory variables are not strongly correlated.
 
 
-=====================================================================================================================================
-
 **OUR OBJECTIVES**
 
 We will be using a multiple linear regression model to forecast bike rental for Mr. John Hughes using the bike rental dataset. Multiple linear regression is used to model and quantify the relationship between two or more independent variables and a dependent variable. 
