@@ -1,0 +1,77 @@
+``` Py
+
+#Load Libraries
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+%matplotlib inline
+import seaborn as sns
+
+#Load Dataset
+data=pd.read_csv('./BikeRental.csv')
+data.head()
+
+#Show Key Statistics
+data.describe()
+
+#Create One Hot Encoded Dataframe
+
+from sklearn.preprocessing import OneHotEncoder
+
+ohe = OneHotEncoder(drop='first')
+
+data_object = data.select_dtypes('object')
+ohe.fit(data_object)
+
+codes = ohe.transform(data_object).toarray()
+feature_names = ohe.get_feature_names_out(data_object.columns)
+
+data_ohe = pd.concat([data.select_dtypes(exclude='object'), 
+               pd.DataFrame(codes,columns=feature_names).astype(int)], axis=1)
+
+data_ohe.head()
+
+#Define x and y variable
+x = data_ohe.drop(['RentalCount'],axis=1).to_numpy()
+y = data_ohe['RentalCount'].to_numpy()
+
+#Create Train and Test Datasets
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=100)
+
+#Scale the Data
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+x_train2 = sc.fit_transform(x_train)
+x_test2 = sc.transform(x_test)
+
+#Model
+from sklearn.linear_model import LinearRegression
+
+#Create Standard Model - using Dummy Variables
+
+from sklearn import metrics
+
+for name,method in [('Linear regression', LinearRegression())]: 
+    method.fit(x_train2,y_train)
+    predict = method.predict(x_test2)
+
+print('\n Regression Model - using OneHotEncoder')
+print('\nMethod: {}'.format(name))   
+
+#Coefficents
+print('\nIntercept: {:.2f}'.format(float(method.intercept_)))
+coeff_table=pd.DataFrame(np.transpose(method.coef_),
+                         data_ohe.drop(['RentalCount'],axis=1).columns,
+                         columns=['Coefficients'])
+print(coeff_table)
+    
+#R2,MAE,MSE and RMSE
+print('\nR2: {:.2f}'.format(metrics.r2_score(y_test,predict)))
+adjusted_r_squared = 1-(1-metrics.r2_score(y_test,predict))*(len(y)-1)/(len(y)-x.shape[1]-1)
+print('Adj_R2: {:0.2f}'.format(adjusted_r_squared))
+print('Mean Absolute Error: {:.2f}'.format(metrics.mean_absolute_error(y_test, predict)))  
+print('Mean Squared Error: {:.2f}'.format(metrics.mean_squared_error(y_test, predict)))  
+print('Root Mean Squared Error: {:.2f}'.format(np.sqrt(metrics.mean_squared_error(y_test, predict))))
+
+```
